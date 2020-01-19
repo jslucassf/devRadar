@@ -1,7 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const http = require('http');
+const { setupWebSocket } = require('./websocket');
 
 const app = express();
+const server = http.Server(app);
+
+console.log('pre');
+setupWebSocket(server);
 
 mongoose.connect('mongodb+srv://jslucassf:jslucassf@cluster0-zrs6w.mongodb.net/week10?retryWrites=true&w=majority', {
 	useNewUrlParser: true,
@@ -10,8 +16,4 @@ mongoose.connect('mongodb+srv://jslucassf:jslucassf@cluster0-zrs6w.mongodb.net/w
 
 app.use(express.json());
 
-app.get('/', (request, response) => {
-	return response.json({"message": "Hello World"});
-})
-
-app.listen(3333);
+server.listen(3333);
